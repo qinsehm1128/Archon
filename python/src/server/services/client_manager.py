@@ -28,8 +28,18 @@ def get_supabase_client() -> Client:
         )
 
     try:
-        # Let Supabase handle connection pooling internally
-        client = create_client(url, key)
+        # Create Supabase client with SSL verification disabled
+        import httpx
+        from supabase.client import ClientOptions
+        print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+        # Create custom httpx client with SSL verification disabled
+        http_client = httpx.Client(verify=False, timeout=30.0)
+
+        # Create Supabase client with custom HTTP client
+        client_options = ClientOptions()
+        client_options.custom_http_client = http_client
+
+        client = create_client(url, key, options=client_options)
 
         # Extract project ID from URL for logging purposes only
         match = re.match(r"https://([^.]+)\.supabase\.co", url)

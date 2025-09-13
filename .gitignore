@@ -8,3 +8,8 @@ PRPs/completed/
 .zed
 tmp/
 temp/
+
+# Models directory - stores Qwen embedding model (1.2GB)
+models/
+*.bin
+*.safetensors

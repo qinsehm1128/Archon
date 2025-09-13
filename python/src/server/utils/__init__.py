@@ -25,7 +25,6 @@ from ..services.embeddings import (
     create_embeddings_batch,
     generate_contextual_embedding,
     generate_contextual_embeddings_batch,
-    get_openai_client,
     process_chunk_with_context,
 )
 
@@ -89,7 +88,6 @@ __all__ = [
     "create_embeddings_batch",
     "create_embedding_async",
     "create_embeddings_batch_async",
-    "get_openai_client",
     # Contextual embedding functions
     "generate_contextual_embedding",
     "generate_contextual_embedding_async",

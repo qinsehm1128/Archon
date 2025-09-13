@@ -194,7 +194,7 @@ COMMENT ON COLUMN archon_sources.source_url IS 'The original URL that was crawle
 COMMENT ON COLUMN archon_sources.source_display_name IS 'Human-readable name for UI display (e.g., "GitHub - microsoft/typescript")';
 COMMENT ON COLUMN archon_sources.title IS 'Descriptive title for the source (e.g., "Pydantic AI API Reference")';
 COMMENT ON COLUMN archon_sources.metadata IS 'JSONB field storing knowledge_type, tags, and other metadata';
-
+ 
 -- Create the documentation chunks table
 CREATE TABLE IF NOT EXISTS archon_crawled_pages (
     id BIGSERIAL PRIMARY KEY,
@@ -203,7 +203,7 @@ CREATE TABLE IF NOT EXISTS archon_crawled_pages (
     content TEXT NOT NULL,
     metadata JSONB NOT NULL DEFAULT '{}'::jsonb,
     source_id TEXT NOT NULL,
-    embedding VECTOR(1536),  -- OpenAI embeddings are 1536 dimensions
+    embedding VECTOR(1024),  -- Qwen3-Embedding-0.6B embeddings are 1024 dimensions
     content_search_vector tsvector GENERATED ALWAYS AS (to_tsvector('english', content)) STORED,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
 
@@ -230,7 +230,7 @@ CREATE TABLE IF NOT EXISTS archon_code_examples (
     summary TEXT NOT NULL,  -- Summary of the code example
     metadata JSONB NOT NULL DEFAULT '{}'::jsonb,
     source_id TEXT NOT NULL,
-    embedding VECTOR(1536),  -- OpenAI embeddings are 1536 dimensions
+    embedding VECTOR(1024),  -- Qwen3-Embedding-0.6B embeddings are 1024 dimensions
     content_search_vector tsvector GENERATED ALWAYS AS (to_tsvector('english', content || ' ' || COALESCE(summary, ''))) STORED,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
 

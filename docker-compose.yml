@@ -20,7 +20,6 @@ services:
     environment:
       - SUPABASE_URL=${SUPABASE_URL}
       - SUPABASE_SERVICE_KEY=${SUPABASE_SERVICE_KEY}
-      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
       - LOGFIRE_TOKEN=${LOGFIRE_TOKEN:-}
       - SERVICE_DISCOVERY_MODE=docker_compose
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
@@ -28,12 +27,16 @@ services:
       - ARCHON_MCP_PORT=${ARCHON_MCP_PORT:-8051}
       - ARCHON_AGENTS_PORT=${ARCHON_AGENTS_PORT:-8052}
       - AGENTS_ENABLED=${AGENTS_ENABLED:-false}
+      # Hugging Face model cache directory
+      - HF_HOME=/app/models
+      - TORCH_HOME=/app/models
     networks:
       - app-network
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock # Docker socket for MCP container control
       - ./python/src:/app/src # Mount source code for hot reload
       - ./python/tests:/app/tests # Mount tests for UI test execution
+      - ./models:/app/models # Persistent storage for Qwen embedding model (1.2GB)
     extra_hosts:
       - "host.docker.internal:host-gateway"
     command:
